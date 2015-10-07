@@ -1,0 +1,23 @@
+
+# MAC OSX #
+.DS_Store
+*/.DS_Store
+.DS_Store?
+._*
+.Spotlight-v100
+.Trashes
+Icon?
+ethumbs.db
+Thumbs.db
+
+# Archives #
+*.dmg
+*.jar
+*.tar
+*.rar
+*.zip
+*.7z
+*.gz
+*.iso
+
+
