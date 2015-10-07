@@ -47,6 +47,7 @@ Now what do you do with this information? The next part of this article deals wi
 The end goal of learning these processes is to be able to apply this to creating interesting, unique images through an algorithmic approach. The word algorithm is used often to describe a repeatable process with repeatable results. It is one of the most abused words in computer science but cut through the pretentiousness and you're left with a specific formula.
 I have chosen to I demo a manipulation that creates an [Andy Warhol](https://en.wikipedia.org/wiki/Andy_Warhol) / [Niagara](https://en.wikipedia.org/wiki/Niagara_%28painter_and_singer%29) effect on an image.
 
+
 ![ Andy Warhol - Andy Warhol Banana ](assets/imgs/warholbanana.jpeg)
 
 For this example we are going to assume a global variable name "pixels" that contains the entirety of the image in RGB order. The first thing to notice is the smooth colors used in each of the example images. An assumption to make would be that only high contrast, edge colors are important, and everyting should be rendered in a flat color. To acheive this a naive way would be to work off of several threshold values ​​and flatten those out. That could be represented as a simple if case:
