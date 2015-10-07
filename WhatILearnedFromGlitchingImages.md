@@ -14,7 +14,7 @@ which is why programs running on your web browser can eat up so much memory. In 
 
 A number type on it's own will not accomplish much, there has to be a data structure to hold all the numbers and keep them in a row. It is traditionally agreed that an effective structure for representing multiple numbers is a list or array type. An array is just what it sounds like, bits stored in a list with a record of where each item is placed, arrays are indexed starting at zero instead of one for efficiency. For example this structure '[1, 2, 3, 4, 5]' means that the position of 0 holds the value of 1, position 1 holds the value of 2 etc. To access a value in such a structure you give the name of the array followed then by square brackets and the position you want the value for.
 
-Figure 1.a _Demo Array_
+**Figure 1.a**  _Demo Array_
 
     // positions: 0 1 2 3 4 5
      var myArray = [ 0, 0, 255, 0 ,0, 255];
@@ -26,7 +26,7 @@ Newer Javascript engines expose a data structure call ArrayBuffer to keep the me
 
 The way that pixels are ordered is how color spaces work. A color space, RGB for example implies that in an array of '[0,0,255]' is arranged with the red value first, the blue second and the green third, so in this example the interpreting program agrees that in the first position the value of 0 infers that there is no red in this pixel, the second position infers that there is no green in this pixel, the third position infer that the pixel contains the maximum blue value. In a perfect world each pixel would be self contained in its own array thus making up a matrix of pixels, however assigning an individual array for each pixel would consume just as much memory as the pixel values ​​themselves, possibly even more depending on the programming environment . Each pixel is instead placed immediately after the previous in the color array [0,0,255, 0,0,255, 0,0,255]. To iterate through each pixel a looping or recursive structure is used. A more traditional for loop can look like this:
 
-Figure 1.b _Traditional pixel for loop structure_
+**Figure 1.b**  _Traditional pixel for loop structure_
 
     for (var x = 0; x < imageHeight; x++) {
      for (var y = 0; y < imageWidth; y++) {
@@ -47,14 +47,13 @@ Now what do you do with this information? The next part of this article deals wi
 The end goal of learning these processes is to be able to apply this to creating interesting, unique images through an algorithmic approach. The word algorithm is used often to describe a repeatable process with repeatable results. It is one of the most abused words in computer science but cut through the pretentiousness and you're left with a specific formula.
 I have chosen to I demo a manipulation that creates an [Andy Warhol](https://en.wikipedia.org/wiki/Andy_Warhol) / [Niagara](https://en.wikipedia.org/wiki/Niagara_%28painter_and_singer%29) effect on an image.
 
-
 ![ Andy Warhol - Andy Warhol Banana ](assets/imgs/warholbanana.jpeg)
 
 For this example we are going to assume a global variable name "pixels" that contains the entirety of the image in RGB order. The first thing to notice is the smooth colors used in each of the example images. An assumption to make would be that only high contrast, edge colors are important, and everyting should be rendered in a flat color. To acheive this a naive way would be to work off of several threshold values ​​and flatten those out. That could be represented as a simple if case:
 
 
 
-Figure 1.c _Choosing to affect color values_
+**Figure 1.c**  _Choosing to affect color values_
 ```javascript    
     var combinedColorValue = r + g + b;
     if (combinedColorValue > 600 ) { // Bright colors
@@ -67,7 +66,7 @@ Figure 1.c _Choosing to affect color values_
 ```
 If you wanted to inject a color into the image, the midsFunction would be the place to do it, but bear in mind that would have an effect on most of the image. Achieve the look To we are going for we have to find several color averages, so our next step is to find the mean value for these thresholds. [Bryce baril](https://github.com/brycebaril) posted his method to obtaining pixel color averages.
 
-Figure 2.a _Bryce Baril's Mean Pixel Method_
+**Figure 2.a**  _Bryce Baril's Mean Pixel Method_
 ```javascript      
     // Bryce Baril’s method: https://www.youtube.com/watch?v=-MCnBvDSoB0
     
@@ -93,7 +92,7 @@ Figure 2.a _Bryce Baril's Mean Pixel Method_
 ```
 Remember, if Google lets you down, Youtube is your second, slightly more verbose friend. I highly recommend watching the video in the comment for more information. We need to modify the code to account for the threshold values ​​we are looking for
 
-Figure 2.b Modified Mean Pixel Method_
+**Figure 2.b**  _Modified Mean Pixel Method_
 ```javascript
     // Pixels is the Uint8Array from the raw image data.
     function modifiedMeanPixel(pixels) {
@@ -151,7 +150,7 @@ This code would be run before the main for loop to acquire the pixel averages. T
 In truth, since we have the modifiedMeanPixel function doing most of the heavy lifting. modifiedMeanPixel returns an object containing the mean pixels from the highs, mids, and lows, now that we have this data we can utilize it to achieve our effect. It is now in the air as to whether we want more of the original image to show or to apply a custom color. Programmatically that can be expressed as:
 
 
-Figure 2.c _Averaging color values_
+**Figure 2.c**  _Averaging color values_
 ```javascript    
     // This will average the value by the current color
     pixels[index+0] = (pixels[index+0] + meanPixels.r) / 2 >>> 0;
@@ -172,7 +171,7 @@ In order to trigger these separate processes you could store each RGB value in i
 You could create a flag array signaling if a value is at a certain threshold but this requires an additional loop the array through you could set up a switch case but there is overhead in processing the array.
 As you can see there are multiple strategies available, I choose the more succinct switch statement for readability. In case you’ve never seen one before, switch statement controls logic in the program (see what I did there?). It works like this:
 
-Figure 3.a _Switch case example_
+**Figure 3.a**  _Switch case example_
 
 ```javascript
     var value = 330;
@@ -192,7 +191,7 @@ Figure 3.a _Switch case example_
 ```
 The more cases you add the more control you'll have over the final image. My code now looks like this:
 
-Figure 3.b _Code so far_
+**Figure 3.b**  _Code so far_
 
 ```javascript
     var meanPixels = modifiedMeanPixel(pixels);
@@ -236,7 +235,7 @@ Figure 3.b _Code so far_
 The effect is successful. However further down the rabbit hole we must go, to achieve Niagara's overprinted line effect we have to add another loop to the code. The loop needs to shift the black lines over. Shifting only the lines is trivial since the program has the values ​​of the lines already because it placed them where they are. All that the program needs is to have another loop added before the end. The contents of loop will check to make sure the current color matches the black, if it does, it should move the line over.
   
   
-Figure 3.c _Overprinting one pixel_
+**Figure 3.c**  _Overprinting one pixel_
 ```javascript  
     var black = {r: 6, g: 2, b:0},
         blue = {r: 20,g: 30,b:184},
@@ -259,7 +258,7 @@ Figure 3.c _Overprinting one pixel_
 ```
 This works but only changes a single pixel and is barely visible, what we need is for the pixel effect to be visible, and it should scale with the size of the image. I find the best movement is at least 1 / 50th of the image width or the image width divided by 50.
 
-Figure 4.a _Overprinting multiple pixels_
+**Figure 4.a**  _Overprinting multiple pixels_
 ```javascript  
     // this is a long one liner...
     var shift = var shift = (imgWidth / 50 >>> 0) % 3> 0 ? (imgWidth / 50 >>> 0) — ((imgWidth / 50 >>> 0) % 3) : (imgWidth / 50 >>> 0);
@@ -291,7 +290,7 @@ Figure 4.a _Overprinting multiple pixels_
   
 If you apply that code, you'll get a double image. That is because we did not add the shift value to the bottom pixel assignment. I mentioned that to show how once an algorithm is set small tweaks enable new effects to happen. With that taken care of the final code looks like this.
 
-Figure 4.b _Final Routine_
+**Figure 4.b**  _Final Routine_
   
 ```javascript  
     // The completed function
