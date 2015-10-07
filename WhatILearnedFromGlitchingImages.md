@@ -15,19 +15,19 @@ which is why programs running on your web browser can eat up so much memory. In 
 A number type on it's own will not accomplish much, there has to be a data structure to hold all the numbers and keep them in a row. It is traditionally agreed that an effective structure for representing multiple numbers is a list or array type. An array is just what it sounds like, bits stored in a list with a record of where each item is placed, arrays are indexed starting at zero instead of one for efficiency. For example this structure '[1, 2, 3, 4, 5]' means that the position of 0 holds the value of 1, position 1 holds the value of 2 etc. To access a value in such a structure you give the name of the array followed then by square brackets and the position you want the value for.
 
 **Figure 1.a**  _Demo Array_
-
+```javascript
     // positions: 0 1 2 3 4 5
      var myArray = [ 0, 0, 255, 0 ,0, 255];
     // positionThree is 255, 
      var positionThree = myArray[2];
-
+```
 Newer Javascript engines expose a data structure call ArrayBuffer to keep the memory footprint of data small. In an ArrayBuffer (or Buffer in Node.js) each position represents the binary data for each position. It helps to think of the data as one continuous stream of numbers. From the ArrayBuffer you can then create a view that automatically assembles the binary data into a structure that you can consume. For Images it is best to stick to a Uint8Array or Uint8ClampedArray although Uint16Array and Uint32Array are also available. This means when you pull the information from position one in this structure that data returned is exactly 8 bits so 255 is '11111111' instead of
 '0000000000000000000000000000000000000000000000000000000011111111'.
 
 The way that pixels are ordered is how color spaces work. A color space, RGB for example implies that in an array of '[0,0,255]' is arranged with the red value first, the blue second and the green third, so in this example the interpreting program agrees that in the first position the value of 0 infers that there is no red in this pixel, the second position infers that there is no green in this pixel, the third position infer that the pixel contains the maximum blue value. In a perfect world each pixel would be self contained in its own array thus making up a matrix of pixels, however assigning an individual array for each pixel would consume just as much memory as the pixel values ​​themselves, possibly even more depending on the programming environment . Each pixel is instead placed immediately after the previous in the color array [0,0,255, 0,0,255, 0,0,255]. To iterate through each pixel a looping or recursive structure is used. A more traditional for loop can look like this:
 
 **Figure 1.b**  _Traditional pixel for loop structure_
-
+```javascript
     for (var x = 0; x < imageHeight; x++) {
      for (var y = 0; y < imageWidth; y++) {
       var currentPixelIndex = (x*imageWidth*3) + (y*3)
@@ -37,7 +37,7 @@ The way that pixels are ordered is how color spaces work. A color space, RGB for
       var currentBlue  = pixelArray[index+2];
      }
     }
-
+```
 x and y represent the coordinates in the double looping structure, imageHeight and imageWidth represent the image's height and width respectively, we multiply the values ​​by 3 to move ahead three pixels on each iteration of y.
 
 Now what do you do with this information? The next part of this article deals with creating effects based off the information above.
