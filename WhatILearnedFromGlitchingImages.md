@@ -1,4 +1,4 @@
-# What I learnded from glitching images
+# What I learned from glitching images
 
 To begin any custom image manipulation, you have to begin with math. The amount of math is quantifiable to the amount of manipulation you want to achieve. I will supply my formula and if in trying to achieve an effect you get stuck, Google is your friend as it’s been a great ally of mine. Also you can leave a comment and I will reply as quickly as I can.
 
